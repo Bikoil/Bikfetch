@@ -33,7 +33,7 @@ func main() {
 	host, _ := os.Hostname()
 	display := os.Getenv("XDG_CURRENT_DESKTOP")
 
-	fmt.Println("╭─────Hai There!──────╮",
+	fmt.Println("╭──────Hai There!─────╮",
 		"\nOS —", osname,
 		"\nKernel —", kernel,
 		"\nUser —", user,
