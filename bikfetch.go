@@ -58,5 +58,3 @@ func checkOsRelease(releasepath string) bool {
 	_, error := os.Stat(releasepath)
 	return !errors.Is(error, os.ErrNotExist)
 }
-
-
