@@ -7,25 +7,26 @@ import (
 	"runtime"
 	"strings"
 	"syscall"
+	"errors"
 )
 
 func main() {
 	var uts syscall.Utsname
 	syscall.Uname(&uts)
 
+    var releasepath string = "/etc/os-release" 
 	osrelease, _ := os.Open("/etc/os-release")
 	defer osrelease.Close()
 
 	var osname string
 	scanner := bufio.NewScanner(osrelease)
 
+    osname = runtime.GOOS
 	for scanner.Scan() {
-		if strings.HasPrefix(scanner.Text(), "PRETTY_NAME=") {
+		if checkOsRelease(releasepath) && strings.HasPrefix(scanner.Text(), "PRETTY_NAME=") {
 			osname = strings.Trim(strings.TrimPrefix(scanner.Text(), "PRETTY_NAME="), "\"")
 			break
-		} else if osname == "" {
-	            osname = runtime.GOOS
-	          }
+		} 
 
 	} 
 	user := os.Getenv("USER")
@@ -53,4 +54,9 @@ func charsToString(ca []int8) string {
 	}
 	return string(s)
 }
+func checkOsRelease(releasepath string) bool {
+	_, error := os.Stat(releasepath)
+	return !errors.Is(error, os.ErrNotExist)
+}
+
 
