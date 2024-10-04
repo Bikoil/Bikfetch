@@ -1,37 +1,27 @@
-# Name of the output binary
-BINARY = bikfetch
+PREFIX ?= /usr
 
-# Go commands
-GO = go
-GO_BUILD = $(GO) build
+# Detect OS to set the correct PREFIX path
+ifeq ($(shell uname), FreeBSD)
+    PREFIX = /usr/local
+endif
 
-# Source file
-SRC = bikfetch.go
+ifeq ($(shell uname), Darwin)
+    PREFIX = /usr/local
+endif
 
-# Installation directory
-INSTALL_DIR = /usr/local/bin
+ifeq ($(shell uname), Linux)
+    ifeq ($(shell uname -o), Android)
+        PREFIX = /data/data/com.termux/files/usr
+    endif
+endif
 
-# Default target
-all: build
+all:
+	@echo Run \'sudo make install\' to install bikfetch
 
-# Build the binary
-build:
-	$(GO_BUILD) -o $(BINARY) $(SRC)
+install:
+	@install -Dm 755 bikfetch $(PREFIX)/bin/bikfetch
 
-# Install the binary
-install: build
-	mkdir -p $(INSTALL_DIR)
-	cp $(BINARY) $(INSTALL_DIR)
-	chmod +x $(INSTALL_DIR)/$(BINARY)
+uninstall:
+	@rm -f $(PREFIX)/bin/bikfetch
 
-# Run the binary
-run: build
-	./$(BINARY)
-
-# Clean the build
-clean:
-	rm -f $(BINARY)
-
-# Phony targets
-.PHONY: all build install run clean
-
+.PHONY: install uninstall all
