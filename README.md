@@ -9,10 +9,8 @@
 
 
 ### Install
+
+Shrimply run
 ```sh
 sudo make install
-```
-Or
-```sh
-make
 ```

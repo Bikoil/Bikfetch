@@ -1,4 +1,6 @@
 PREFIX ?= /usr
+GO_FILES := bikfetch.go
+BINARY := bikfetch
 
 # Detect OS to set the correct PREFIX path
 ifeq ($(shell uname), FreeBSD)
@@ -15,13 +17,22 @@ ifeq ($(shell uname), Linux)
     endif
 endif
 
-all:
-	@echo Run \'sudo make install\' to install bikfetch
+all: $(BINARY)
 
-install:
-	@install -Dm 755 bikfetch $(PREFIX)/bin/bikfetch
+$(BINARY): $(GO_FILES)
+	go build -o $(BINARY) $(GO_FILES)
+	@echo Built $(BINARY)
+
+install: $(BINARY)
+	@install -Dm 755 $(BINARY) $(PREFIX)/bin/$(BINARY)
+	@echo Installed $(BINARY) to $(PREFIX)/bin, Thank you for installing!
 
 uninstall:
-	@rm -f $(PREFIX)/bin/bikfetch
+	@rm -f $(PREFIX)/bin/$(BINARY)
+	@echo Uninstalled $(BINARY) from $(PREFIX)/bin
 
-.PHONY: install uninstall all
+clean:
+	@rm -f $(BINARY)
+	@echo Cleaned $(BINARY)
+
+.PHONY: all install uninstall clean
