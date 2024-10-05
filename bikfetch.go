@@ -38,7 +38,7 @@ func main() {
 		"\nOS —", osname,
 		"\nKernel —", kernel,
 		"\nUser —", user,
-	        "\nHost Machine —", host,
+	        "\nHost —", host,
 		"\nWM / DE —", display,
 		"\n╰─────────────────────╯")
 }
