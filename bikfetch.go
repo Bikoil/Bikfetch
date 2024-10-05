@@ -33,6 +33,12 @@ func main() {
 	kernel := charsToString(uts.Release[:])
 	host, _ := os.Hostname()
 	display := os.Getenv("XDG_CURRENT_DESKTOP")
+	if os.Getenv("XDG_DESKTOP_SESSION") == "" {
+          display = os.Getenv("DESKTOP_SESSION")
+	}
+	if os.Getenv("DESKTOP_SESSION") == "" {
+            display = os.Getenv("GDMSESSION") 
+	}
 
 	fmt.Println("╭──────Hai There!─────╮",
 		"\nOS —", osname,
