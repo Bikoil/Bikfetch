@@ -25,6 +25,7 @@ $(BINARY): $(GO_FILES)
 
 install: $(BINARY)
 	@install -Dm 755 $(BINARY) $(PREFIX)/bin/$(BINARY)
+	@rm ./bikfetch
 	@echo Installed $(BINARY) to $(PREFIX)/bin, Thank you for installing!
 
 uninstall:
