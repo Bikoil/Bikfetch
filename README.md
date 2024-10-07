@@ -12,5 +12,7 @@
 
 Shrimply run
 ```sh
+git clone https://github.com/Bikoil/Bikfetch
+cd Bikfetch
 sudo make install
 ```
