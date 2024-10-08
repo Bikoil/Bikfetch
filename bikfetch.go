@@ -13,14 +13,14 @@ import (
 func main() {
 	var uts syscall.Utsname
 	syscall.Uname(&uts)
-
+    // Get os release path variable
     var releasepath string = "/etc/os-release" 
 	osrelease, _ := os.Open("/etc/os-release")
 	defer osrelease.Close()
 
 	var osname string
 	scanner := bufio.NewScanner(osrelease)
-
+    // OSNAME will be the normal runtime os name if /etc/os-release doesnt work
     osname = runtime.GOOS
 	for scanner.Scan() {
 		if checkOsRelease(releasepath) && strings.HasPrefix(scanner.Text(), "PRETTY_NAME=") {
@@ -29,10 +29,10 @@ func main() {
 		} 
 
 	} 
-	user := os.Getenv("USER")
-	kernel := charsToString(uts.Release[:])
-	host, _ := os.Hostname()
-	display := os.Getenv("XDG_CURRENT_DESKTOP")
+	user := os.Getenv("USER") // User
+	kernel := charsToString(uts.Release[:]) // Kernel
+	host, _ := os.Hostname() // Hostname
+	display := os.Getenv("XDG_CURRENT_DESKTOP") // Display (WM/DE)
 	if os.Getenv("XDG_DESKTOP_SESSION") == "" {
           display = os.Getenv("DESKTOP_SESSION")
 	}
@@ -40,6 +40,7 @@ func main() {
             display = os.Getenv("GDMSESSION") 
 	}
 
+	// Print it all out
 	fmt.Println("╭──────Hai There!─────╮",
 		"\nOS —", osname,
 		"\nKernel —", kernel,
